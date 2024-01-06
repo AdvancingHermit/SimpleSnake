@@ -5,6 +5,6 @@ Lavet af Christian Nkya (s236137) med hjælp fra Martin Keith Buchreitz (s235285
 SimpleSnake er et snake spil baseret på det grundlæggende snakespil beskrevet i rapporten, skrevet efter avanceret snake, da vi ikke havde set vi skulle aflevere en grundlæggende snake, derved grunden til at koden er noget anderledes strukturet.
 SimpleSnake.jar køres ved at køre kommandoen
 
-java -jar SimpleSnake.jar
+<code> java -jar SimpleSnake.jar <code\>
 
 i filens mappe og kræver at man har java for at åbne programmet.
