@@ -100,7 +100,7 @@ public class SnakeProjekt extends ApplicationAdapter {
 	}
 
 	private void initFont(){
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/Retroville.ttf"));
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("Retroville.ttf"));
 		parameter = new FreeTypeFontParameter();
 		parameter.size = 60;
 		scFont = generator.generateFont(parameter);
