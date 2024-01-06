@@ -8,4 +8,4 @@ SimpleSnake.jar køres ved at køre kommandoen
 
 <code>java -jar SimpleSnake.jar</code>
 
-i filens mappe og kræver at man har java for at åbne programmet.
+i filens mappe og kræver at man har java for at åbne programmet. Man kan ikke bare dobbelklikke jar filen da den kræver commandline input, før selve spillet begynder.
