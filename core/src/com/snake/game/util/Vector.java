@@ -13,6 +13,16 @@ public class Vector{
         return new Vector(x + other.x, y + other.y);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Vector){
+            Vector other = (Vector) obj;
+            return x == other.x && y == other.y;
+        }
+        return false;
+    }
+
+
     public String toString(){
         return "X: " + x + " Y:" + y;
     }

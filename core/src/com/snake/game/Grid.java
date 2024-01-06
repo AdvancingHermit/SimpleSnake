@@ -13,7 +13,6 @@ public class Grid {
     int[][] grid;
     ArrayList<Vector> snakeBody;
     Vector vel;
-    int squareSize = 20;
     private int counter = 0;
     private Vector fruit;
     private boolean fruitExists = false;
@@ -102,12 +101,11 @@ public class Grid {
 
     private void checkCollision() {
         for (int i = 0; i < snakeBody.size() - 1; i++) {
-            if (snakeBody.get(snakeBody.size() - 1).x == snakeBody.get(i).x
-                    && snakeBody.get(snakeBody.size() - 1).y == snakeBody.get(i).y) {
+            if (snakeBody.get(snakeBody.size() - 1).equals(snakeBody.get(i))) {
                 isDead = true;
             }
         }
-        if (snakeBody.get(snakeBody.size() - 1).x == fruit.x && snakeBody.get(snakeBody.size() - 1).y == fruit.y) {
+        if (snakeBody.get(snakeBody.size() - 1).equals(fruit)) {
             fruitExists = false;
             fruitEaten = true;
             score++;
@@ -117,10 +115,6 @@ public class Grid {
 
     public int[][] getGrid() {
         return grid;
-    }
-
-    public int getSquareSize() {
-        return squareSize;
     }
 
     public void update() {
