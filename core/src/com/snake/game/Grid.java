@@ -19,6 +19,7 @@ public class Grid {
     private boolean fruitExists = false;
     private boolean fruitEaten = false;
     private boolean isDead = false;
+    private Vector lastVel;
 
     public Grid(int n, int m) {
         grid = new int[n][m];
@@ -64,14 +65,14 @@ public class Grid {
     private void moveSnake() {
         snakeBody.add(snakeBody.get(snakeBody.size() - 1).add(vel));
 
-        if(!fruitEaten){
-        snakeBody.remove(0);
+        if (!fruitEaten) {
+            snakeBody.remove(0);
         } else {
             fruitEaten = false;
         }
 
-        for (int i = 0; i < snakeBody.size() - 1; i++) {
-            if (snakeBody.get(snakeBody.size() - 1).x == -1 || snakeBody.get(i).x == grid.length) {
+        for (int i = 0; i < snakeBody.size(); i++) {
+            if (snakeBody.get(i).x == -1 || snakeBody.get(i).x == grid.length) {
                 snakeBody.get(i).x = grid.length - Math.abs(snakeBody.get(i).x);
             }
             if (snakeBody.get(i).y == -1 || snakeBody.get(i).y == grid[0].length) {
@@ -82,16 +83,16 @@ public class Grid {
     }
 
     private void updateVel() {
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && vel.x != 1) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && lastVel.x != 1) {
             vel.x = -1;
             vel.y = 0;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && vel.x != -1) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && lastVel.x != -1) {
             vel.x = 1;
             vel.y = 0;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && vel.y != -1) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && lastVel.y != -1) {
             vel.x = 0;
             vel.y = 1;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && vel.y != 1) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && lastVel.y != 1) {
             vel.x = 0;
             vel.y = -1;
         }
@@ -127,18 +128,20 @@ public class Grid {
     }
 
     public void update() {
-        updateVel();
+        if (!isDead) {
+            updateVel();
 
-        if (counter % 10 == 0) {
-            moveSnake();
-            checkCollision();
-            updateGrid();
-            System.out.println(fruit.x + " " + fruit.y);
-            if (fruitExists == false) {
-                initFruit();
+            if (counter % 10 == 0) {
+                moveSnake();
+                checkCollision();
+                updateGrid();
+                System.out.println(fruit.x + " " + fruit.y);
+                if (fruitExists == false) {
+                    initFruit();
+                }
+                lastVel = new Vector(vel.x, vel.y);
             }
+            counter++;
         }
-        counter++;
     }
-
 }
