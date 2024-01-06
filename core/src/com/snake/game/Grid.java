@@ -20,6 +20,7 @@ public class Grid {
     private boolean fruitEaten = false;
     private boolean isDead = false;
     private Vector lastVel;
+    int score = 0;
 
     public Grid(int n, int m) {
         grid = new int[n][m];
@@ -35,6 +36,7 @@ public class Grid {
             }
         }
         grid[fruit.x][fruit.y] = 2;
+        placeSnake();
     }
 
     private void initSnake() {
@@ -79,7 +81,7 @@ public class Grid {
                 snakeBody.get(i).y = grid[0].length - Math.abs(snakeBody.get(i).y);
             }
         }
-
+        checkCollision();
     }
 
     private void updateVel() {
@@ -102,21 +104,15 @@ public class Grid {
         for (int i = 0; i < snakeBody.size() - 1; i++) {
             if (snakeBody.get(snakeBody.size() - 1).x == snakeBody.get(i).x
                     && snakeBody.get(snakeBody.size() - 1).y == snakeBody.get(i).y) {
-                System.out.println("YOOO");
                 isDead = true;
             }
         }
         if (snakeBody.get(snakeBody.size() - 1).x == fruit.x && snakeBody.get(snakeBody.size() - 1).y == fruit.y) {
             fruitExists = false;
-            System.out.println("FRUIT MUNCHER");
             fruitEaten = true;
+            score++;
         }
 
-    }
-
-    private void updateGrid() {
-        pupulateGrid();
-        placeSnake();
     }
 
     public int[][] getGrid() {
@@ -130,12 +126,9 @@ public class Grid {
     public void update() {
         if (!isDead) {
             updateVel();
-
             if (counter % 10 == 0) {
                 moveSnake();
-                checkCollision();
-                updateGrid();
-                System.out.println(fruit.x + " " + fruit.y);
+                pupulateGrid();
                 if (fruitExists == false) {
                     initFruit();
                 }

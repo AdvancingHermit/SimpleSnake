@@ -5,7 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,6 +23,12 @@ public class SnakeProjekt extends ApplicationAdapter {
 	int screenHeight;
 	private int n;
 	private int m;
+	BitmapFont scFont;
+	FreeTypeFontGenerator generator;
+	FreeTypeFontParameter parameter;
+	int xOffSet;
+	int yOffSet;
+	int squareSize;
 
 	SnakeProjekt(int n, int m) {
 		super();
@@ -36,6 +45,18 @@ public class SnakeProjekt extends ApplicationAdapter {
 		shape = new ShapeRenderer();
 		camera = new OrthographicCamera();
 		viewport = new FitViewport(screenWidth, screenHeight, camera);
+		initFont();
+		squareSize = Math.min(screenWidth / n, screenHeight / m);
+
+		if(n > m){
+			squareSize = Math.min(squareSize * n, (screenWidth - 300) / n);
+		}
+		else{
+			squareSize = Math.min(squareSize * m, (screenHeight - 150) / m);
+		}
+
+		xOffSet = (screenWidth - (n * squareSize)) / 2;
+		yOffSet = (screenHeight - (m * squareSize)) / 2;
 	}
 
 	@Override
@@ -45,16 +66,20 @@ public class SnakeProjekt extends ApplicationAdapter {
 		camera.update();
 		grid.update();
 		drawGrid();
+		drawScore();
+
+	}
+
+	private void drawScore() {
+		batch.begin();
+		scFont.draw(batch, "Score: " + grid.score, 30, screenHeight - 20);
+		batch.end();
 	}
 
 	private void drawGrid() {
 		shape.begin(ShapeRenderer.ShapeType.Filled);
 		shape.setColor(0, 0, 0, 1);
-		int[][] showGrid = grid.getGrid();
-		int squareSize = grid.getSquareSize();
-
-		int xOffSet = (screenWidth - (n * squareSize)) / 2;
-		int yOffSet = (screenHeight - (m * squareSize)) / 2;
+		int[][] showGrid = grid.getGrid();		
 
 		for (int i = 0; i < showGrid.length; i++) {
 			for (int j = 0; j < showGrid[i].length; j++) {
@@ -72,6 +97,15 @@ public class SnakeProjekt extends ApplicationAdapter {
 		}
 
 		shape.end();
+	}
+
+	private void initFont(){
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/Retroville.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 60;
+		scFont = generator.generateFont(parameter);
+		scFont.setColor(Color.BLACK);
+		generator.dispose();
 	}
 
 	public void checkForESC() {
