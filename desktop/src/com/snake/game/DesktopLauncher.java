@@ -11,14 +11,21 @@ import com.badlogic.gdx.graphics.glutils.HdpiMode;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
-    public static void main(String[] arg) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the width of the grid: ");
-        int n = Math.min(Math.max(5, scanner.nextInt()), 100);
-        System.out.println("Enter the height of the grid: ");
-        int m = Math.min(Math.max(5, scanner.nextInt()), 100);
-        scanner.close();
-
+    public static void main(String[] args) {
+        int n;
+        int m;
+        if(args.length > 0){
+            n = Math.min(Math.max(5, Integer.parseInt(args[0])), 100);
+            m = Math.min(Math.max(5, Integer.parseInt(args[1])), 100);
+        }
+        else{
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the width of the grid: ");
+            n = Math.min(Math.max(5, scanner.nextInt()), 100);
+            System.out.println("Enter the height of the grid: ");
+            m = Math.min(Math.max(5, scanner.nextInt()), 100);
+            scanner.close();
+        }
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         DisplayMode desktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
         config.setFullscreenMode(desktopMode);;
